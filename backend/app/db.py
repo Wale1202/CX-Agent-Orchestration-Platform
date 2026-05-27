@@ -22,3 +22,17 @@ def get_db() -> Generator[Session, None, None]:
         yield db
     finally:
         db.close()
+
+
+def init_db() -> None:
+    """Create any missing tables.
+
+    This is a dev-time convenience. In production we'd use Alembic migrations
+    so schema changes are explicit and reversible. For an MVP where the
+    schema is still settling, ``create_all`` is faster to iterate on.
+    """
+    # Import the models package so every model is registered on Base.metadata
+    # before we ask SQLAlchemy to create tables.
+    import app.models  # noqa: F401
+
+    Base.metadata.create_all(bind=engine)

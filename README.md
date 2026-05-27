@@ -74,6 +74,18 @@ curl http://localhost:8000/health
 # {"status":"ok"}
 ```
 
+### Seeding demo data
+
+The repository ships with a handful of customers, orders, and knowledge-base
+articles so the chat and dashboard have something to display. To load them:
+
+```bash
+docker compose exec backend python -m app.seed.run
+```
+
+The script is idempotent — running it against a non-empty database does
+nothing.
+
 ### Running the backend without Docker
 
 ```bash
